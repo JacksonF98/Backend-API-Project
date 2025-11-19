@@ -14,14 +14,14 @@ const tickData = loadTickData();
 app.use(express.json());
 
 // Test endpoint to verify the server is running
-app.get('/status', (req, res) => {
-  res.json({
+app.get('/status', (req, n) => {
+  n.json({
     status: 'Running',
     timestamp: new Date().toISOString()
   });
 });
 
-app.get('/sightings', (req, res) => {
+app.get('/sightings', (req, n) => {
     const { location, startDate, endDate } = req.query;
     let filteredData = tickData;
 
@@ -51,8 +51,17 @@ app.get('/sightings', (req, res) => {
                 return sightingDate <= end;
             });
         }
-    res.json(filteredData);
+    n.json(filteredData);
 
+});
+
+app.get('/reports/locations', (req, res) => {
+    const locationCounts = {};
+    tickData.forEach((row) => {
+        const loc = row.location || 'Unknown';
+        locationCounts[loc] = (locationCounts[loc]||0)+1;
+    });
+    res.json(locationCounts);
 });
 // Start the server
 const PORT = process.env.PORT || 3000;
