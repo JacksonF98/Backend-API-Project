@@ -9,30 +9,16 @@ function loadTickData(){
     return xlsx.utils.sheet_to_json(sheet);
 }
 
-const tickData = loadTickData();
-
-app.use(express.json());
-
-// Test endpoint to verify the server is running
-app.get('/status', (req, n) => {
-  n.json({
-    status: 'Running',
-    timestamp: new Date().toISOString()
-  });
-});
-
-app.get('/sightings', (req, n) => {
-    const { location, startDate, endDate } = req.query;
-    let filteredData = tickData;
+function filterSightings(data, { location, startDate, endDate }) {
+    let filteredData = data;
 
     // Location filtering
     if(location){
         const locLower = location.toLowerCase();
-        filteredData = tickData.filter(
+        filteredData = filteredData.filter(
             (row) => String(row.location).toLowerCase() === locLower
         );
     }
-
     //start date filtering
     if(startDate){
         const start = new Date(startDate);
@@ -50,14 +36,37 @@ app.get('/sightings', (req, n) => {
                 const sightingDate = new Date(row.date);
                 return sightingDate <= end;
             });
-        }
-    n.json(filteredData);
+    }
+    return filteredData;
+}
+
+const tickData = loadTickData();
+
+app.use(express.json());
+
+// Test endpoint to verify the server is running
+app.get('/status', (req, res) => {
+  res.json({
+    status: 'Running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/sightings', (req, res) => {
+    const { location, startDate, endDate } = req.query;
+    let filteredData = filterSightings(tickData, { location, startDate, endDate });
+
+    res.json(filteredData);
 
 });
 
 app.get('/reports/locations', (req, res) => {
+    const { location, startDate, endDate } = req.query;
+
+    let filteredData = filterSightings(tickData, { location, startDate, endDate });
+
     const locationCounts = {};
-    tickData.forEach((row) => {
+    filteredData.forEach((row) => {
         const loc = row.location || 'Unknown';
         locationCounts[loc] = (locationCounts[loc]||0)+1;
     });
