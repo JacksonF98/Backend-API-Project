@@ -20,7 +20,16 @@ app.get('/status', (req, res) => {
 });
 
 app.get('/sightings', (req, res) => {
-  res.json(tickData);
+    const { location } = req.query;
+    let filteredData = tickData;
+    if(location){
+        const locLower = location.toLowerCase();
+        filteredData = tickData.filter(
+            (row) => String(row.location).toLowerCase() === locLower
+        );
+    }
+    res.json(filteredData);
+
 });
 
 const PORT = process.env.PORT || 3000;
