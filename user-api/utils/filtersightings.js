@@ -29,4 +29,4 @@ function filterSightings(data, { location, startDate, endDate }) {
     return filteredData;
 }
 
-module.exports = filterSightings
+module.exports = filterSightings;
