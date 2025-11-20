@@ -2,6 +2,9 @@ const xlsx = require('xlsx');
 const express = require('express');
 const app = express();
 
+// Import filtering utility
+const filterSightings = require('./utils/filtersightings');
+
 // swagger setup for API documentation
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
@@ -82,36 +85,6 @@ function loadTickData(){
     return deduped;
 }
 
-function filterSightings(data, { location, startDate, endDate }) {
-    let filteredData = data;
-
-    // Location filtering
-    if(location){
-        const locLower = location.toLowerCase();
-        filteredData = filteredData.filter(
-            (row) => String(row.location).toLowerCase() === locLower
-        );
-    }
-    //start date filtering
-    if(startDate){
-        const start = new Date(startDate);
-        filteredData = filteredData.filter(
-            (row) => {
-                const sightingDate = new Date(row.date);
-                return sightingDate >= start;
-            });
-    }
-    //end date filtering
-    if(endDate){
-        const end = new Date(endDate);
-        filteredData = filteredData.filter(
-            (row) => {
-                const sightingDate = new Date(row.date);
-                return sightingDate <= end;
-            });
-    }
-    return filteredData;
-}
 // Load tick data once at startup
 const tickData = loadTickData();
 
