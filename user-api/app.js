@@ -74,39 +74,6 @@ app.use(sightingsRoutes);
 
 app.use(reportsRoutes);
 
-/**
- * @openapi
- * /reports/locations:
- *  get:
- *     tags:
- *      - Reports
- *     summary: Get tick sightings with optional filters
- *     parameters:
- *       - in: query
- *         name: location
- *         schema:
- *           type: string
- *       - in: query
- *         name: startDate
- *         schema:
- *           type: string
- *           format: date
- *       - in: query
- *         name: endDate
- *         schema:
- *           type: string
- *           format: date
- *     responses:
- *       200:
- *         description: List of matching sightings aggregated by location
- *       404: 
- *         description: No sightings found
- *       500: 
- *         description: Server error
- *
- *
- */
-
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
