@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
-
 // load tick data
 const tickData = require('./data/tickdata');
-
 // Import filtering utility
 const filterSightings = require('./utils/filtersightings');
+// Import sightings routes
+const sightingsRoutes = require('./routes/sightings');
 
 // swagger setup for API documentation
 const swaggerUi = require('swagger-ui-express');
@@ -39,17 +39,15 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./app.js'] // tells swagger-jsdoc to scan this file for docs comments
+  apis: ['./app.js', './routes/*.js'] // tells swagger-jsdoc to scan this file for docs comments
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-
-
-
 app.use(express.json());
+
+
 
 /**
  * @openapi
@@ -70,49 +68,8 @@ app.get('/status', (req, res) => {
   });
 });
 
+app.use('/sightings', sightingsRoutes);
 
-/**
- * @openapi
- * /sightings:
- *  get:
- *     tags:
- *       - Sightings
- *     summary: Get tick sightings with optional filters
- *     parameters:
- *       - in: query
- *         name: location
- *         schema:
- *           type: string
- *       - in: query
- *         name: startDate
- *         schema:
- *           type: string
- *           format: date
- *       - in: query
- *         name: endDate
- *         schema:
- *           type: string
- *           format: date
- *     responses:
- *       200:
- *         description: List of matching sightings
- *       404: 
- *         description: No sightings found
- *       500: 
- *         description: Server error
- *
- *
- */
-
-app.get('/sightings', (req, res) => {
-    const { location, startDate, endDate } = req.query;
-
-    // Call filtering function
-    let filteredData = filterSightings(tickData, { location, startDate, endDate });
-
-    res.json(filteredData);
-
-});
 
 /**
  * @openapi
