@@ -2,6 +2,32 @@ const xlsx = require('xlsx');
 const express = require('express');
 const app = express();
 
+// swagger setup for API documentation
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+// swagger definition
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Tick Sightings API',
+      version: '1.0.0',
+      description: 'API for exploring tick sightings data, including filtering and reports.'
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000'
+      }
+    ]
+  },
+  apis: ['./app.js'] // tells swagger-jsdoc to scan this file for docs comments
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
 function rowContainsNecData(row){
     return row.date && row.location;
 }
