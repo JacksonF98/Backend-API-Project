@@ -3,7 +3,38 @@ const router = express.Router();
 
 const  tickData  = require('../data/tickdata');
 const filterSightings = require('../utils/filtersightings');
-
+/**
+ * @openapi
+ * /reports/locations:
+ *  get:
+ *     tags:
+ *      - Reports
+ *     summary: Get tick sightings with optional filters
+ *     parameters:
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: List of matching sightings aggregated by location
+ *       404: 
+ *         description: No sightings found
+ *       500: 
+ *         description: Server error
+ *
+ *
+ */
 router.get('/reports/locations', (req, res) => {
     const { location, startDate, endDate } = req.query;
 
