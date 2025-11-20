@@ -2,11 +2,17 @@ const xlsx = require('xlsx');
 const express = require('express');
 const app = express();
 
+function rowContainsNecData(row){
+    return row.date && row.location;
+}
+
 // Load and parse the Excel file using xlsx library
 function loadTickData(){
     const workbook = xlsx.readFile("./data/Tick Sightings.xlsx");
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    return xlsx.utils.sheet_to_json(sheet);
+    const rows = xlsx.utils.sheet_to_json(sheet);
+    cleaned = rows.filter(rowContainsNecData);
+    return cleaned;
 }
 
 function filterSightings(data, { location, startDate, endDate }) {
