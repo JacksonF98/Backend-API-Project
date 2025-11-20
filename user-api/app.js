@@ -11,7 +11,16 @@ function loadTickData(){
     const workbook = xlsx.readFile("./data/Tick Sightings.xlsx");
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     const rows = xlsx.utils.sheet_to_json(sheet);
+
     cleaned = rows.filter(rowContainsNecData);
+
+    const removedCount = rows.length - cleaned.length;
+    if(removedCount > 0){
+        console.log(`Removed ${removedCount} rows with missing date or location`);
+    } else {
+        console.log(`All rows loaded.`);
+    }
+
     return cleaned;
 }
 
