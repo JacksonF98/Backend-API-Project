@@ -72,7 +72,7 @@ function filterSightings(data, { location, startDate, endDate }) {
     }
     return filteredData;
 }
-
+// Load tick data once at startup
 const tickData = loadTickData();
 
 app.use(express.json());
