@@ -43,7 +43,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 function rowContainsNecData(row){
-    return row.date && row.location;
+    return row.id && row.date && row.location;
 }
 
 // Load and parse the Excel file using xlsx library
@@ -117,6 +117,17 @@ const tickData = loadTickData();
 
 app.use(express.json());
 
+/**
+ * @openapi
+ * /status:
+ *  get:
+ *     tags:
+ *       - General
+ *     summary: Check API status
+ *     responses:
+ *       200:
+ *         description: API is running
+ */
 // Test endpoint to verify the server is running
 app.get('/status', (req, res) => {
   res.json({
