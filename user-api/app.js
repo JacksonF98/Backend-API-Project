@@ -14,6 +14,20 @@ const swaggerOptions = {
       version: '1.0.0',
       description: 'API for exploring tick sightings data, including filtering and reports.'
     },
+    tags: [
+        {
+            name: 'General',
+            description: 'General endpoints for API status and info'
+        },
+        {
+            name: 'Sightings',
+            description: 'Endpoints for retrieving tick sightings data'
+        },
+        {
+            name: 'Reports',
+            description: 'Endpoints for generating reports on tick sightings'
+        }
+    ],
     servers: [
       {
         url: 'http://localhost:3000'
@@ -111,6 +125,40 @@ app.get('/status', (req, res) => {
   });
 });
 
+
+/**
+ * @openapi
+ * /sightings:
+ *  get:
+ *     tags:
+ *       - Sightings
+ *     summary: Get tick sightings with optional filters
+ *     parameters:
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: List of matching sightings
+ *       404: 
+ *         description: No sightings found
+ *       500: 
+ *         description: Server error
+ *
+ *
+ */
+
 app.get('/sightings', (req, res) => {
     const { location, startDate, endDate } = req.query;
 
@@ -121,6 +169,38 @@ app.get('/sightings', (req, res) => {
 
 });
 
+/**
+ * @openapi
+ * /reports/locations:
+ *  get:
+ *     tags:
+ *      - Reports
+ *     summary: Get tick sightings with optional filters
+ *     parameters:
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: List of matching sightings aggregated by location
+ *       404: 
+ *         description: No sightings found
+ *       500: 
+ *         description: Server error
+ *
+ *
+ */
 app.get('/reports/locations', (req, res) => {
     const { location, startDate, endDate } = req.query;
 
@@ -136,6 +216,39 @@ app.get('/reports/locations', (req, res) => {
     res.json(locationCounts);
 });
 
+
+/**
+ * @openapi
+ * /reports/trends:
+ *  get:
+ *     tags:
+ *      - Reports
+ *     summary: Get tick sightings with optional filters
+ *     parameters:
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *     responses:
+ *       200:
+ *         description: List of matching sightings aggregated by time period
+ *       404: 
+ *         description: No sightings found
+ *       500: 
+ *         description: Server error
+ *
+ *
+ */
 app.get('/reports/trends', (req, res) => {
     const { period = 'weekly', location, startDate, endDate } = req.query;
 
