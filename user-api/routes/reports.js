@@ -15,16 +15,19 @@ const filterSightings = require('../utils/filtersightings');
  *         name: location
  *         schema:
  *           type: string
+ *           example: "Liverpool"
  *       - in: query
  *         name: startDate
  *         schema:
  *           type: string
  *           format: date
+ *           example: "2023-01-01"
  *       - in: query
  *         name: endDate
  *         schema:
  *           type: string
  *           format: date
+ *           example: "2023-12-31"
  *     responses:
  *       '200':
  *         description: List of matching sightings aggregated by location
@@ -67,16 +70,19 @@ router.get('/reports/locations', (req, res) => {
  *         name: location
  *         schema:
  *           type: string
+ *           example: "Manchester"
  *       - in: query
  *         name: startDate
  *         schema:
  *           type: string
  *           format: date
+ *           example: "2023-01-01"
  *       - in: query
  *         name: endDate
  *         schema:
  *           type: string
  *           format: date
+ *           example: "2023-12-31"
  *     responses:
  *       '200':
  *         description: List of matching sightings aggregated by time period

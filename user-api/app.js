@@ -60,7 +60,7 @@ app.use(express.json());
  *     summary: Check API status
  *     responses:
  *       '200':
- *         description: API is running
+ *         description: API is running  
  */
 // Test endpoint to verify the server is running
 app.get('/status', (req, res) => {

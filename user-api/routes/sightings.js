@@ -17,28 +17,33 @@ const paginate = require('../utils/paginate');
  *         name: location
  *         schema:
  *           type: string
+ *           example: "London"
  *         description: Location to filter sightings
  *       - in: query
  *         name: startDate
  *         schema:
  *           type: string
  *           format: date
+ *           example: "2023-01-01"
  *         description: Start date for filtering sightings (YYYY-MM-DD)
  *       - in: query
  *         name: endDate
  *         schema:
  *           type: string
  *           format: date
+ *           example: "2023-12-31"
  *         description: End date for filtering sightings (YYYY-MM-DD)
  *       - in: query
  *         name: page
  *         schema:
  *           type: integer
+ *           example: 1
  *         description: Page number for pagination (default is 1)
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
+ *           example: 50
  *         description: Number of items per page (default 100)
  *     responses:
  *       '200':
