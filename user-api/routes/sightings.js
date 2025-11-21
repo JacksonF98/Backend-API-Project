@@ -3,6 +3,7 @@ const router = express.Router();
 
 const  tickData  = require('../data/tickdata');
 const filterSightings = require('../utils/filtersightings');
+const paginate = require('../utils/paginate');
 
 /**
  * @openapi
@@ -43,7 +44,11 @@ router.get('/sightings', (req, res) => {
     // Call filtering function
     let filteredData = filterSightings(tickData, { location, startDate, endDate });
 
-    res.json(filteredData);
+    // Apply pagination
+    const middleware = paginate(filteredData);
+    middleware(req, res, () => {
+        res.json(res.paginatedResults);
+    });
 
 });
 
