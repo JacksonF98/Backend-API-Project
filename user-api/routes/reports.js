@@ -6,9 +6,9 @@ const filterSightings = require('../utils/filtersightings');
 /**
  * @openapi
  * /reports/locations:
- *  get:
+ *   get:
  *     tags:
- *      - Reports
+ *       - Reports
  *     summary: Get tick sightings with optional filters
  *     parameters:
  *       - in: query
@@ -26,14 +26,12 @@ const filterSightings = require('../utils/filtersightings');
  *           type: string
  *           format: date
  *     responses:
- *       200:
+ *       '200':
  *         description: List of matching sightings aggregated by location
- *       404: 
+ *       '404':
  *         description: No sightings found
- *       500: 
+ *       '500':
  *         description: Server error
- *
- *
  */
 router.get('/reports/locations', (req, res) => {
     const { location, startDate, endDate } = req.query;
@@ -54,11 +52,17 @@ router.get('/reports/locations', (req, res) => {
 /**
  * @openapi
  * /reports/trends:
- *  get:
+ *   get:
  *     tags:
- *      - Reports
- *     summary: Get tick sightings with optional filters
+ *       - Reports
+ *     summary: Get tick sightings aggregated by time period (weekly or monthly)
  *     parameters:
+ *       - in: query
+ *         name: period
+ *         schema:
+ *           type: string
+ *           enum: ['weekly', 'monthly']
+ *         description: "Period to aggregate by (default: weekly)"
  *       - in: query
  *         name: location
  *         schema:
@@ -74,14 +78,12 @@ router.get('/reports/locations', (req, res) => {
  *           type: string
  *           format: date
  *     responses:
- *       200:
+ *       '200':
  *         description: List of matching sightings aggregated by time period
- *       404: 
+ *       '404':
  *         description: No sightings found
- *       500: 
+ *       '500':
  *         description: Server error
- *
- *
  */
 router.get('/reports/trends', (req, res) => {
     const { period = 'weekly', location, startDate, endDate } = req.query;

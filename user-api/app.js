@@ -54,12 +54,12 @@ app.use(express.json());
 /**
  * @openapi
  * /status:
- *  get:
+ *   get:
  *     tags:
  *       - General
  *     summary: Check API status
  *     responses:
- *       200:
+ *       '200':
  *         description: API is running
  */
 // Test endpoint to verify the server is running
