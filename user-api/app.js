@@ -8,6 +8,8 @@ const filterSightings = require('./utils/filtersightings');
 const sightingsRoutes = require('./routes/sightings');
 // Import reports routes
 const reportsRoutes = require('./routes/reports');
+// Import insights
+const summaryRoutes = require('./routes/summary');
 
 // swagger setup for API documentation
 const swaggerUi = require('swagger-ui-express');
@@ -33,6 +35,10 @@ const swaggerOptions = {
         {
             name: 'Reports',
             description: 'Endpoints for generating reports on tick sightings'
+        },
+        {
+            name: 'Insights',
+            description: 'Endpoints for higher level insights found in tick sightings data'
         }
     ],
     servers: [
@@ -41,7 +47,7 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./app.js', './routes/*.js'] // tells swagger-jsdoc to scan this file for docs comments
+  apis: ['./app.js', './routes/*.js', './insights/*.js'] // tells swagger-jsdoc to scan this file for docs comments
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -106,6 +112,8 @@ app.get('/stats', (req, res) => {
 app.use(sightingsRoutes);
 
 app.use(reportsRoutes);
+
+app.use(summaryRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
