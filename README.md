@@ -84,5 +84,6 @@ Example Endpoints:
 - http://localhost:3000/sightings
 - http://localhost:3000/sightings?location=Manchester
 - http://localhost:3000/reports/locations
-- http://localhost:3000/reports/trends?period=monthly
+- http://localhost:3000/reports/trends?period=monthly 
+
 
