@@ -49,7 +49,20 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.json());
 
-
+/**
+ * @openapi
+ * /welcome:
+ *   get: 
+ *     tags:
+ *       - General
+ *     summary: Welcome message for the Tick Sightings API
+ *     responses:
+ *       '200':
+ *         description: Welcome message
+ */
+app.get('/welcome', (req,res) => {
+    res.json({ message: 'Welcome to the Tick Sightings API! Visit /docs for API documentation.' });
+})
 
 /**
  * @openapi
