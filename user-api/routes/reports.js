@@ -3,6 +3,7 @@ const router = express.Router();
 
 const  tickData  = require('../data/tickdata');
 const filterSightings = require('../utils/filtersightings');
+const paginate = require('../utils/paginate');
 /**
  * @openapi
  * /reports/locations:
@@ -16,18 +17,21 @@ const filterSightings = require('../utils/filtersightings');
  *         schema:
  *           type: string
  *           example: "Liverpool"
+ *         description: Location to filter sightings
  *       - in: query
  *         name: startDate
  *         schema:
  *           type: string
  *           format: date
  *           example: "2023-01-01"
+ *         description: Start date for filtering sightings (YYYY-MM-DD)
  *       - in: query
  *         name: endDate
  *         schema:
  *           type: string
  *           format: date
  *           example: "2023-12-31"
+ *         description: End date for filtering sightings (YYYY-MM-DD)
  *     responses:
  *       '200':
  *         description: List of matching sightings aggregated by location
@@ -71,18 +75,33 @@ router.get('/reports/locations', (req, res) => {
  *         schema:
  *           type: string
  *           example: "Manchester"
+ *         description: Location to filter sightings
  *       - in: query
  *         name: startDate
  *         schema:
  *           type: string
  *           format: date
  *           example: "2023-01-01"
+ *         description: Start date for filtering sightings (YYYY-MM-DD)
  *       - in: query
  *         name: endDate
  *         schema:
  *           type: string
  *           format: date
  *           example: "2023-12-31"
+ *         description: End date for filtering sightings (YYYY-MM-DD)
+ *       - in: query
+ *         name: page
+ *         schema:
+ *          type: integer
+ *          example: 1
+ *         description: Page number for pagination (default is 1)
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *          type: integer
+ *          example: 50
+ *         description: Number of items per page (default 100)
  *     responses:
  *       '200':
  *         description: List of matching sightings aggregated by time period
@@ -132,7 +151,10 @@ router.get('/reports/trends', (req, res) => {
     // Convert to sorted array
     const result = Object.values(buckets).sort((a, b) => a.period.localeCompare(b.period));
 
-    res.json({ period: String(period).toLowerCase(), data: result });
+    paginate(result)(req, res, () => {
+        res.json({ period: String(period).toLowerCase(), ...res.paginatedResults });
+    });
+
 });
 
 module.exports = router;
