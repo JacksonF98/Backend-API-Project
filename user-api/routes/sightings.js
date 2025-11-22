@@ -4,6 +4,7 @@ const router = express.Router();
 const  tickData  = require('../data/tickdata');
 const filterSightings = require('../utils/filtersightings');
 const paginate = require('../utils/paginate');
+const { invalidDateCheck } = require('../utils/validation');
 
 /**
  * @openapi
@@ -56,6 +57,11 @@ const paginate = require('../utils/paginate');
 
 router.get('/sightings', (req, res) => {
     const { location, startDate, endDate } = req.query;
+
+    //Validate date inputs
+    if(invalidDateCheck(startDate) || invalidDateCheck(endDate)){
+        return  res.status(400).json({ message: 'Invalid date format. Please use YYYY-MM-DD.' });
+    }
 
     // Call filtering function
     let filteredData = filterSightings(tickData, { location, startDate, endDate });
