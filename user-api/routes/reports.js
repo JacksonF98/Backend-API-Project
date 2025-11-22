@@ -125,6 +125,10 @@ router.get('/reports/trends', (req, res) => {
     if(invalidDateCheck(startDate) || invalidDateCheck(endDate)){
         return  res.status(400).json({ message: 'Invalid date format. Please use YYYY-MM-DD.' });
     }
+
+    if (period && !['weekly', 'monthly'].includes(String(period).toLowerCase())) {
+        return res.status(400).json({ message: "Invalid period. Allowed values are 'weekly' or 'monthly'." });
+    }
     // Filter data first
     const filteredData = filterSightings(tickData, { location, startDate, endDate });
 
