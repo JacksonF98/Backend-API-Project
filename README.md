@@ -21,7 +21,7 @@ Users can filter their sightings results using location(city), start date, and e
 - [x] Auto-generated interactive API documentation (Swagger UI)
 
 ### Optional Extension Task
-- [ ] AI/ML Insights
+- [x] AI/ML Insights
 
 ## Project Structure
 
