@@ -83,6 +83,26 @@ app.get('/status', (req, res) => {
   });
 });
 
+/**
+ * @openapi
+ * /stats:
+ *   get:
+ *     tags:
+ *       - General
+ *     summary: Get basic statistics about the tick sightings data
+ *     responses:
+ *      '200': 
+ *        description: Basic statistics including total sightings and API uptime
+ */
+app.get('/stats', (req, res) => {
+    const totalSightings = tickData.length;
+    const apiUptime = Math.floor(process.uptime());
+    res.json({
+        totalSightings,
+        apiUptime: `${apiUptime} seconds`
+    });
+});
+
 app.use(sightingsRoutes);
 
 app.use(reportsRoutes);
