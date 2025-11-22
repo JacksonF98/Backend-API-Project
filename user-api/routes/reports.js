@@ -51,6 +51,10 @@ router.get('/reports/locations', (req, res) => {
     // Call filtering function
     let filteredData = filterSightings(tickData, { location, startDate, endDate });
 
+    if (filteredData.length === 0) {
+        return res.status(404).json({ message: 'No sightings found matching the criteria.' });
+    }
+
     // Aggregate counts by region
     const locationCounts = {};
     filteredData.forEach((row) => {
@@ -158,6 +162,12 @@ router.get('/reports/trends', (req, res) => {
 
     // Convert to sorted array
     const result = Object.values(buckets).sort((a, b) => a.period.localeCompare(b.period));
+
+    if (result.length === 0) {
+        return res.status(404).json({ message: 'No sightings found matching the criteria.' });
+    }
+
+    // Paginate the result array
 
     paginate(result)(req, res, () => {
         res.json({ period: String(period).toLowerCase(), ...res.paginatedResults });

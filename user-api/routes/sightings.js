@@ -62,10 +62,12 @@ router.get('/sightings', (req, res) => {
     if(invalidDateCheck(startDate) || invalidDateCheck(endDate)){
         return  res.status(400).json({ message: 'Invalid date format. Please use YYYY-MM-DD.' });
     }
-
     // Call filtering function
     let filteredData = filterSightings(tickData, { location, startDate, endDate });
 
+    if (filteredData.length === 0) {
+        return res.status(404).json({ message: 'No sightings found matching the criteria.' });
+    }
     // Apply pagination
     const middleware = paginate(filteredData);
     middleware(req, res, () => {
