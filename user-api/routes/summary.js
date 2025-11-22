@@ -17,15 +17,28 @@ function getSummaryInsights(data) {
         if (!latestDate || sightingDate > latestDate) {
             latestDate = sightingDate;
         }
+        // Count sightings per location
+        const loc = row.location || 'Unknown';
+        locationCounts[loc] = (locationCounts[loc] || 0) + 1;
     });
 
 
     // Most common location
+    let mostCommonLocation = null;
+    let maxCount = 0;
+    for (const [loc, count] of Object.entries(locationCounts)) {
+        if (count > maxCount) {
+            maxCount = count;
+            mostCommonLocation = loc;
+        }
+    }
 
     return {
         totalSightings: data.length,
         earliestSighting: earliestDate ? earliestDate.toISOString().split('T')[0] : null,
         latestSighting: latestDate ? latestDate.toISOString().split('T')[0] : null,
+        mostCommonLocation: mostCommonLocation,
+        sightingsAtMostCommonLocation: maxCount
     };
 }
 
