@@ -21,7 +21,7 @@ const swaggerOptions = {
     info: {
       title: 'Tick Sightings API',
       version: '1.0.0',
-      description: 'API for exploring tick sightings data, including filtering and reports.'
+      description: 'API for exploring tick sightings data, including filtering and reports. Author: Jackson Fanelli'
     },
     tags: [
         {
