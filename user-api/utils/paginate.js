@@ -3,6 +3,13 @@ function paginatedResults(model) {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 100;
 
+    if(limit > 500 || isNaN(limit)){
+        return res.status(400).json({ message: 'Limit must be a number in the range of 1 to 500' });
+    }
+    if(page < 1 || isNaN(page)){
+        return res.status(400).json({ message: 'Page number must be 1 or greater.' });
+    }
+
     // Ensure page & limit are always safe
     const safePage = Math.max(1, page);
     const safeLimit = Math.max(1, Math.min(limit, 500)); // Add safety cap
