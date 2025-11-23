@@ -1,5 +1,9 @@
 # Backend-API-Project - Jackson Fanelli
 MVP Backend API for tick sighting data
+
+## IMPORTANT - VIDEO LINK 
+https://youtu.be/1dNm2Gs8Hkw
+
 ## Project Overview
 This project provides a RESTful API for navigating and analysing tick data supplied in an Excel spreadsheet. The API loads the dataset, cleans it by removing any incomplete rows and duplicates, providing the user with several endpoints to query and report.
 
