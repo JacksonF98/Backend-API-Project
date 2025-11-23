@@ -101,12 +101,12 @@ A future improvement would be integrating the data into a proper database such a
 
 This would allow:
 - More complex analysis
-- persistance of user submitted sightings
+- persistence of user submitted sightings
 - higher scalability for storage of larger datasets
 - faster queries 
 
 ### Improved Machine learning insights
-The current insights uses hard-coded logic rather than machine learing or AI models. 
+The current insights use hard-coded logic rather than machine learning or AI models. 
 A future version could include finding a suitable library capable of additional functionality such as:
 
 - anomaly detection e.g. spike of data in particular weeks across locations
